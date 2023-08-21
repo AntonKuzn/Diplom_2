@@ -1,5 +1,4 @@
 package org.example.order;
-
 import org.example.ingredients.Ingredient;
 
 public class Order {

@@ -4,21 +4,14 @@ import org.example.order.Order;
 import org.example.order.OrderAPI;
 import org.example.user.User;
 import org.example.user.UserAPI;
-
-
 import io.restassured.RestAssured;
 import static org.hamcrest.Matchers.notNullValue;
-
-
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.example.user.UserGeneration;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.apache.http.HttpStatus.*;
 import static org.example.ingredients.IngredientReq.getIngredientFromArray;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -49,10 +42,9 @@ public class OrderCreateTest {
         accessToken = response.then().extract().body().path("accessToken");
         response = orderSteps.createOrderWithAuthorized(order, accessToken);
         response.then()
-                .body("success", equalTo(true))
+                .statusCode(200)
                 .and()
-                .statusCode(200);
-
+                .body("success", equalTo(true));
     }
     @Test
     @DisplayName("Создание заказа неавторизованного пользователя и невалидными ингредиентами")
@@ -60,9 +52,9 @@ public class OrderCreateTest {
         Order order = new Order(validIngredient);
         response = orderSteps.createOrderWithAuthorized(order, "");
         response.then()
-                .body("success", equalTo(true))
+                .statusCode(200)
                 .and()
-                .statusCode(200);
+                .body("success", equalTo(true));
     }
     @Test
     @DisplayName("Создание заказа без ингредиентов")
@@ -72,9 +64,9 @@ public class OrderCreateTest {
         response = userSteps.userCreate(user);
         response = orderSteps.createOrderWithoutAuthorized(order);
         response.then()
-                .body("success", equalTo(false))
+                .statusCode(400)
                 .and()
-                .statusCode(400);
+                .body("success", equalTo(false));
     }
     @Test
     @DisplayName("Создание заказа без ингредиентов с сообщением об ошибке")
@@ -84,9 +76,9 @@ public class OrderCreateTest {
         response = userSteps.userCreate(user);
         response = orderSteps.createOrderWithoutAuthorized(order);
         response.then()
-                .body("message", equalTo("Ingredient ids must be provided"))
+                .statusCode(400)
                 .and()
-                .statusCode(400);
+                .body("message", equalTo("Ingredient ids must be provided"));
     }
     @Test
     @DisplayName("Заказ с ошибочным игредиентом")
@@ -105,10 +97,10 @@ public class OrderCreateTest {
     public void getStatusOfIngredients() {
         response = orderSteps.getIngredientsData();
         response.then()
+                .statusCode(200)
+                .and()
                 .body("success", equalTo(true))
                 .and()
-                .body("data", notNullValue())
-                .and()
-                .statusCode(200);
+                .body("data", notNullValue());
     }
 }

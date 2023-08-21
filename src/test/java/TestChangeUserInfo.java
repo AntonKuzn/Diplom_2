@@ -5,14 +5,10 @@ import org.example.user.User;
 import org.example.user.UserAPI;
 import org.example.user.UserGeneration;
 import static org.example.user.UserGeneration.faker;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.hamcrest.Matchers.equalTo;
-
-
 
 public class TestChangeUserInfo {
     private final UserAPI userSteps = new UserAPI();
@@ -34,9 +30,9 @@ public class TestChangeUserInfo {
         user.setEmail(faker.internet().emailAddress());
         response = userSteps.userDataAccountChanging(user, accessToken);
         response.then()
-                .body("success", equalTo(true))
+                .statusCode(200)
                 .and()
-                .statusCode(200);
+                .body("success", equalTo(true));
     }
     @Test
     @DisplayName("Изменение пароля")
@@ -45,9 +41,9 @@ public class TestChangeUserInfo {
         user.setPassword(faker.internet().password());
         response = userSteps.userDataAccountChanging(user, accessToken);
         response.then()
-                .body("success", equalTo(true))
+                .statusCode(200)
                 .and()
-                .statusCode(200);
+                .body("success", equalTo(true));
     }
     @Test
     @DisplayName("Изменение пароля не авторизованного пользователя")
@@ -56,9 +52,9 @@ public class TestChangeUserInfo {
         user.setPassword(faker.internet().password());
         response = userSteps.userDataAccountChanging(user, "");
         response.then()
-                .body("success", equalTo(false))
+                .statusCode(401)
                 .and()
-                .statusCode(401);
+                .body("success", equalTo(false));
     }
     @Test
     @DisplayName("Изменение данных не авторизованного пользователя")
@@ -68,9 +64,9 @@ public class TestChangeUserInfo {
         user.setEmail(faker.internet().emailAddress());
         response = userSteps.userDataAccountChanging(user, "");
         response.then()
-                .body("success", equalTo(false))
+                .statusCode(401)
                 .and()
-                .statusCode(401);
+                .body("success", equalTo(false));
     }
     @After
     public void cleanUp() {

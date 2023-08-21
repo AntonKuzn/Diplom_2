@@ -1,8 +1,6 @@
-import io.restassured.response.ValidatableResponse;
 import org.example.user.User;
 import org.example.user.UserGeneration;
 import org.example.user.UserAPI;
-
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
@@ -32,9 +30,9 @@ public class TestCreateUser {
         accessToken = response
                 .then().extract().body().path("accessToken");
         response
-                .then().body("accessToken", notNullValue())
+                .then().statusCode(200)
                 .and()
-                .statusCode(200);
+                .body("accessToken", notNullValue());
     }
     @Test
     @DisplayName("Повторная регистрация зарегистрированного пользователя")
@@ -48,9 +46,9 @@ public class TestCreateUser {
                 .statusCode(200);
         response = userSteps.userCreate(user);
         response.then()
-                .body("message", equalTo("User already exists"))
+                .statusCode(403)
                 .and()
-                .statusCode(403);
+                .body("message", equalTo("User already exists"));
     }
     @Test
     @DisplayName("Создание пользователя без заполненного поля")
@@ -61,8 +59,8 @@ public class TestCreateUser {
         accessToken = response
                 .then().extract().body().path("accessToken");
         response.then()
-                .body("message", equalTo("Email, password and name are required fields"))
+                .statusCode(403)
                 .and()
-                .statusCode(403);
+                .body("message", equalTo("Email, password and name are required fields"));
     }
 }

@@ -1,17 +1,13 @@
 import org.example.user.User;
 import org.example.user.UserAPI;
 import org.example.user.UserGeneration;
-
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.hamcrest.Matchers.equalTo;
-
-
 
 public class TestUserLogin {
     private final UserAPI userApi = new UserAPI();
@@ -32,9 +28,9 @@ public class TestUserLogin {
     public void authorizWithUser() {
         response = userApi.userLoginToken(user, accessToken);
         response
-                .then().body("success", equalTo(true))
+                .then().statusCode(200)
                 .and()
-                .statusCode(200);
+                .body("success", equalTo(true));
     }
     @Test
     @DisplayName("Не валидная авторизация")
@@ -48,9 +44,9 @@ public class TestUserLogin {
         user.setEmail(email);
         user.setPassword(password);
         response.then()
-                .body("success", equalTo(false))
+                .statusCode(401)
                 .and()
-                .statusCode(401);
+                .body("success", equalTo(false));
     }
     @After
     public void cleanUp() {

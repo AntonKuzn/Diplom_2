@@ -1,13 +1,8 @@
 package org.example.order;
-
-
 import io.restassured.response.Response;
 import org.example.RestConfig;
-
-
 import io.qameta.allure.Step;
 import static io.restassured.RestAssured.given;
-
 
 public class OrderAPI extends RestConfig {
     @Step("Create order with authorized")

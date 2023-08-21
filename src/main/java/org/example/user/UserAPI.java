@@ -1,14 +1,9 @@
 package org.example.user;
-
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.example.RestConfig;
-
 import io.qameta.allure.Step;
-import io.restassured.response.ValidatableResponse;
-
-
 import static io.restassured.RestAssured.given;
 
 public class UserAPI extends RestConfig {

@@ -1,10 +1,5 @@
 package org.example;
 
-
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.http.ContentType;
-import io.restassured.specification.RequestSpecification;
-
 public class RestConfig {
     public static final String URL = "https://stellarburgers.nomoreparties.site/";
     public static final String INGREDIENTS = "api/ingredients";

@@ -6,17 +6,14 @@ import org.example.user.User;
 import org.example.user.UserAPI;
 import org.example.user.UserGeneration;
 import static org.example.ingredients.IngredientReq.getIngredientFromArray;
-
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
-
 
 public class GetListOrderTest {
     private final UserAPI userSteps = new UserAPI();
@@ -45,9 +42,9 @@ public class GetListOrderTest {
         accessToken = response.then().extract().body().path("accessToken");
         response = orderSteps.createOrderWithAuthorized(order, accessToken);
         response.then()
-                .body("success", equalTo(true))
+                .statusCode(200)
                 .and()
-                .statusCode(200);
+                .body("success", equalTo(true));
 
     }
     @Test
@@ -56,9 +53,9 @@ public class GetListOrderTest {
         Order order = new Order(validIngredient);
         response = orderSteps.createOrderWithAuthorized(order, "");
         response.then()
-                .body("success", equalTo(true))
+                .statusCode(200)
                 .and()
-                .statusCode(200);
+                .body("success", equalTo(true));
     }
     @Test
     @DisplayName("Создание заказа без ингредиентов")
@@ -68,9 +65,9 @@ public class GetListOrderTest {
         response = userSteps.userCreate(user);
         response = orderSteps.createOrderWithoutAuthorized(order);
         response.then()
-                .body("success", equalTo(false))
+                .statusCode(400)
                 .and()
-                .statusCode(400);
+                .body("success", equalTo(false));
     }
     @Test
     @DisplayName("Создание заказа без ингредиентов с сообщением об ошибке")
@@ -80,9 +77,9 @@ public class GetListOrderTest {
         response = userSteps.userCreate(user);
         response = orderSteps.createOrderWithoutAuthorized(order);
         response.then()
-                .body("message", equalTo("Ingredient ids must be provided"))
+                .statusCode(400)
                 .and()
-                .statusCode(400);
+                .body("message", equalTo("Ingredient ids must be provided"));
     }
     @Test
     @DisplayName("Заказ с не валидными ингредиентами")
@@ -101,10 +98,10 @@ public class GetListOrderTest {
     public void getStatusOfIngredients() {
         response = orderSteps.getIngredientsData();
         response.then()
+                .statusCode(200)
+                .and()
                 .body("success", equalTo(true))
                 .and()
-                .body("data", notNullValue())
-                .and()
-                .statusCode(200);
+                .body("data", notNullValue());
     }
 }

@@ -1,7 +1,5 @@
 package org.example.ingredients;
-
 import org.example.RestConfig;
-
 import static io.restassured.RestAssured.given;
 
 public class IngredientReq {
