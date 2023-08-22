@@ -1,9 +1,0 @@
-org\example\ingredients\IngredientResp.class
-org\example\order\OrderAPI.class
-org\example\ingredients\Ingredient.class
-org\example\order\Order.class
-org\example\user\User.class
-org\example\user\UserGeneration.class
-org\example\user\UserAPI.class
-org\example\ingredients\IngredientReq.class
-org\example\RestConfig.class
